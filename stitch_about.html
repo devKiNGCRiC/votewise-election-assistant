@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VoteWise - About</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#571f00",
+                        "primary": "#ffc08d",
+                        "on-surface-variant": "#dbc2b0",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-surface": "#f1dfd3",
+                        "surface-container-low": "#231a13",
+                        "background": "#1a120b",
+                        "on-primary-fixed-variant": "#6d3a00",
+                        "surface-dim": "#1a120b",
+                        "secondary-fixed": "#dce1ff",
+                        "on-secondary-fixed-variant": "#264191",
+                        "tertiary-fixed-dim": "#ffb694",
+                        "primary-fixed-dim": "#ffb77a",
+                        "on-tertiary-container": "#772d00",
+                        "surface-variant": "#3d332b",
+                        "on-background": "#f1dfd3",
+                        "on-secondary": "#05297a",
+                        "error-container": "#93000a",
+                        "primary-container": "#ff9933",
+                        "on-secondary-fixed": "#00164e",
+                        "surface": "#1a120b",
+                        "surface-container-highest": "#3d332b",
+                        "inverse-on-surface": "#392e27",
+                        "on-primary": "#4c2700",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#351000",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "surface-container-lowest": "#140d07",
+                        "outline": "#a38d7c",
+                        "on-secondary-container": "#9db2ff",
+                        "primary-fixed": "#ffdcc2",
+                        "surface-container": "#271e17",
+                        "secondary-container": "#264191",
+                        "surface-container-high": "#322820",
+                        "on-primary-fixed": "#2e1500",
+                        "error": "#ffb4ab",
+                        "secondary": "#b6c4ff",
+                        "tertiary": "#ffbfa2",
+                        "secondary-fixed-dim": "#b6c4ff",
+                        "on-error": "#690005",
+                        "inverse-primary": "#8f4e00",
+                        "surface-tint": "#ffb77a",
+                        "surface-bright": "#42372f",
+                        "tertiary-container": "#ff9764",
+                        "outline-variant": "#554336",
+                        "on-primary-container": "#693800",
+                        "inverse-surface": "#f1dfd3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "lg": "24px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "container-margin": "20px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-md": ["Inter"],
+                        "h3": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "h3": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "h2": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-6 py-4 fixed top-0 z-50 bg-white/10 dark:bg-slate-900/40 backdrop-blur-xl border-b border-white/10 shadow-xl font-['Inter'] antialiased tracking-tight">
+<div class="flex items-center gap-2">
+<span class="text-2xl font-black text-[#FF9933] drop-shadow-[0_0_8px_rgba(255,153,51,0.5)]">VoteWise</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-white/70 hover:text-white transition-colors hover:bg-white/5 transition-all duration-300 px-3 py-1 rounded-md text-sm font-medium" href="#">Home</a>
+<a class="text-white/70 hover:text-white transition-colors hover:bg-white/5 transition-all duration-300 px-3 py-1 rounded-md text-sm font-medium" href="#">Learn</a>
+<a class="text-white/70 hover:text-white transition-colors hover:bg-white/5 transition-all duration-300 px-3 py-1 rounded-md text-sm font-medium" href="#">Simulation</a>
+<a class="text-white/70 hover:text-white transition-colors hover:bg-white/5 transition-all duration-300 px-3 py-1 rounded-md text-sm font-medium" href="#">Quiz</a>
+<a class="text-[#FF9933] font-bold border-b-2 border-[#FF9933] pb-1 px-3 py-1 text-sm" href="#">About</a>
+</nav>
+<div class="flex items-center">
+<button class="bg-gradient-to-r from-primary-container to-tertiary-container text-white px-5 py-2 rounded-full font-label-sm text-label-sm hover:shadow-[0_0_15px_rgba(255,153,51,0.4)] transition-all">
+                Sign In
+            </button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-32 pb-40 md:pb-20 px-container-margin md:px-10 max-w-7xl mx-auto w-full flex flex-col gap-16">
+<!-- Hero Section -->
+<section class="flex flex-col items-center text-center max-w-3xl mx-auto space-y-6">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high border border-outline/20 mb-4">
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="policy" data-weight="fill" style="font-variation-settings: 'FILL' 1;">policy</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Our Mission</span>
+</div>
+<h1 class="font-h1 text-h1 text-on-background leading-tight">
+                Empowering the modern electorate through <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-container to-tertiary-container">clarity</span>.
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                VoteWise is built on the belief that a healthy democracy requires informed citizens. We strip away the noise to provide impartial, accessible, and vital election information.
+            </p>
+</section>
+<!-- Glassmorphic Bento Grid: Core Values -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Bento Box 1 -->
+<div class="md:col-span-8 bg-white/5 backdrop-blur-[20px] border border-white/20 rounded-[20px] p-8 md:p-12 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative z-10 flex flex-col h-full justify-between gap-8">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high flex items-center justify-center border border-outline/20 shadow-[inset_2px_2px_4px_rgba(255,255,255,0.05),-2px_-2px_4px_rgba(0,0,0,0.5)]">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="balance">balance</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-surface mb-3">Non-Partisan Truth</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            We aggregate data directly from verified civic sources. No spin, no bias. Just the facts you need to make the decision that aligns with your values.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Bento Box 2 -->
+<div class="md:col-span-4 bg-surface-container-low rounded-[20px] p-8 border border-outline/10 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.05),_4px_4px_10px_rgba(0,0,0,0.5)] flex flex-col gap-6">
+<div class="w-12 h-12 rounded-full bg-secondary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-2xl" data-icon="school">school</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-surface mb-2">Civic Education</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Understanding the ballot shouldn't require a law degree. We simplify complex propositions into plain language.
+                    </p>
+</div>
+</div>
+<!-- Bento Box 3 -->
+<div class="md:col-span-4 bg-surface-container-low rounded-[20px] p-8 border border-outline/10 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.05),_4px_4px_10px_rgba(0,0,0,0.5)] flex flex-col gap-6">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-2xl" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-surface mb-2">Data Privacy</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Your vote is private, and so is your data. We do not track individual user preferences or sell personal information.
+                    </p>
+</div>
+</div>
+<!-- Bento Box 4 (Image Card) -->
+<div class="md:col-span-8 bg-white/5 backdrop-blur-[20px] border border-white/20 rounded-[20px] overflow-hidden min-h-[300px] relative">
+<img alt="Diverse crowd of people at a civic rally bathed in golden hour sunlight" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" data-alt="diverse crowd of people at a civic rally gathered outdoors bathed in warm golden hour sunlight with soft lens flare and hopeful atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArXyIHzCC-kcGB5nIua7xcCdP0Ul4T6nFmjp_txV9Ut-ntM588dASFwrr1VRyb50GD6VovrfLXXDO9boJMg_W1kE6SbqyAls5UcaaHSUgaaRwfoi95xwaGcuzGYDtAfa5pPj9ww4KrmrJYpwIvuDz62VncMfIpThMtp-28OkfxFdPPbD7ZDH-wi3UZySxbU-Qs96VIx7_4bMGNqQVgcNolS4X0A8xB_NED4KUkN_4F6osP6bS8JBjozq82Rl-8k62Luv0GMOxivtc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 md:p-12">
+<h3 class="font-h2 text-h2 text-on-surface mb-4">Why Awareness Matters</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        Local elections often have a greater impact on daily life than national ones, yet they see the lowest turnout. We exist to bridge that gap.
+                    </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-slate-950 border-t border-slate-800 mt-auto">
+<div class="text-[#FF9933] font-bold text-lg font-['Inter']">
+            VoteWise
+        </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-sm font-light text-slate-500 hover:text-[#FF9933] transition-colors font-label-sm" href="#">Privacy</a>
+<a class="text-sm font-light text-slate-500 hover:text-[#FF9933] transition-colors font-label-sm" href="#">Terms</a>
+<a class="text-sm font-light text-slate-500 hover:text-[#FF9933] transition-colors font-label-sm" href="#">Ethics</a>
+<a class="text-sm font-light text-slate-500 hover:text-[#FF9933] transition-colors font-label-sm" href="#">Contact</a>
+</div>
+<div class="text-sm font-light text-slate-400 font-body-md text-center md:text-right">
+            © 2024 VoteWise. Built for the Future of Democracy.
+        </div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<!-- Suppressed active state because "About" is not a primary mobile tab destination -->
+<nav class="md:hidden fixed bottom-6 left-0 right-0 flex justify-around items-center px-4 z-50">
+<div class="w-[90%] max-w-md mx-auto rounded-full border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] bg-white/10 dark:bg-slate-900/60 backdrop-blur-2xl flex justify-around p-2">
+<a class="flex flex-col items-center justify-center text-white/50 p-3 hover:text-[#FF9933] transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="home">home</span>
+<span class="text-[10px] font-semibold uppercase tracking-wider mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-white/50 p-3 hover:text-[#FF9933] transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="menu_book">menu_book</span>
+<span class="text-[10px] font-semibold uppercase tracking-wider mt-1">Learn</span>
+</a>
+<a class="flex flex-col items-center justify-center text-white/50 p-3 hover:text-[#FF9933] transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="ads_click">ads_click</span>
+<span class="text-[10px] font-semibold uppercase tracking-wider mt-1">Simulation</span>
+</a>
+<a class="flex flex-col items-center justify-center text-white/50 p-3 hover:text-[#FF9933] transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="person">person</span>
+<span class="text-[10px] font-semibold uppercase tracking-wider mt-1">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

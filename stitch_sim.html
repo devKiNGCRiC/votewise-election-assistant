@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VoteWise - Voting Simulation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary": "#571f00",
+                      "primary": "#ffc08d",
+                      "on-surface-variant": "#dbc2b0",
+                      "tertiary-fixed": "#ffdbcc",
+                      "on-surface": "#f1dfd3",
+                      "surface-container-low": "#231a13",
+                      "background": "#1a120b",
+                      "on-primary-fixed-variant": "#6d3a00",
+                      "surface-dim": "#1a120b",
+                      "secondary-fixed": "#dce1ff",
+                      "on-secondary-fixed-variant": "#264191",
+                      "tertiary-fixed-dim": "#ffb694",
+                      "primary-fixed-dim": "#ffb77a",
+                      "on-tertiary-container": "#772d00",
+                      "surface-variant": "#3d332b",
+                      "on-background": "#f1dfd3",
+                      "on-secondary": "#05297a",
+                      "error-container": "#93000a",
+                      "primary-container": "#ff9933",
+                      "on-secondary-fixed": "#00164e",
+                      "surface": "#1a120b",
+                      "surface-container-highest": "#3d332b",
+                      "inverse-on-surface": "#392e27",
+                      "on-primary": "#4c2700",
+                      "on-error-container": "#ffdad6",
+                      "on-tertiary-fixed": "#351000",
+                      "on-tertiary-fixed-variant": "#7b2f00",
+                      "surface-container-lowest": "#140d07",
+                      "outline": "#a38d7c",
+                      "on-secondary-container": "#9db2ff",
+                      "primary-fixed": "#ffdcc2",
+                      "surface-container": "#271e17",
+                      "secondary-container": "#264191",
+                      "surface-container-high": "#322820",
+                      "on-primary-fixed": "#2e1500",
+                      "error": "#ffb4ab",
+                      "secondary": "#b6c4ff",
+                      "tertiary": "#ffbfa2",
+                      "secondary-fixed-dim": "#b6c4ff",
+                      "on-error": "#690005",
+                      "inverse-primary": "#8f4e00",
+                      "surface-tint": "#ffb77a",
+                      "surface-bright": "#42372f",
+                      "tertiary-container": "#ff9764",
+                      "outline-variant": "#554336",
+                      "on-primary-container": "#693800",
+                      "inverse-surface": "#f1dfd3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "lg": "24px",
+                      "gutter": "16px",
+                      "md": "16px",
+                      "container-margin": "20px",
+                      "unit": "4px",
+                      "sm": "8px",
+                      "xl": "32px"
+              },
+              "fontFamily": {
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "h1": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "h3": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "h2": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "h1": [
+                              "40px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "h3": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "h2": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="hidden md:flex flex justify-between items-center w-full px-6 py-4 fixed top-0 z-50 bg-white/10 dark:bg-slate-900/40 backdrop-blur-xl border-b border-white/20 shadow-xl font-['Inter'] antialiased tracking-tight">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black text-[#FF9933] drop-shadow-[0_0_8px_rgba(255,153,51,0.5)]">VoteWise</span>
+</div>
+<nav class="flex items-center gap-8">
+<a class="text-white/70 hover:text-white transition-colors hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-md" href="#">Home</a>
+<a class="text-white/70 hover:text-white transition-colors hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-md" href="#">Learn</a>
+<a class="text-[#FF9933] font-bold border-b-2 border-[#FF9933] pb-1 hover:bg-white/5 transition-all duration-300 px-3 py-2" href="#">Simulation</a>
+<a class="text-white/70 hover:text-white transition-colors hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-md" href="#">Quiz</a>
+<a class="text-white/70 hover:text-white transition-colors hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-md" href="#">About</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-[#FF9933] hover:bg-white/5 transition-all duration-300 px-4 py-2 rounded-full border border-[#FF9933]/30 font-label-sm text-label-sm">Sign In</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-24 pb-32 md:pb-24 px-container-margin max-w-7xl mx-auto w-full flex flex-col gap-xl">
+<!-- Header Section -->
+<section class="flex flex-col gap-sm mt-md">
+<h1 class="font-h1 text-h1 text-on-background">Mayoral Election 2024</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Review the candidates below and cast your simulated ballot. Your choices are private and help you prepare for the real election.</p>
+</section>
+<!-- Candidate Selection Area -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Candidate Card 1 (Unselected) -->
+<article class="bg-surface-variant/30 backdrop-blur-xl border border-outline/20 rounded-xl p-lg flex flex-col gap-md transition-all hover:bg-surface-variant/50 group relative overflow-hidden shadow-[8px_8px_16px_rgba(0,0,0,0.4),-4px_-4px_12px_rgba(255,255,255,0.05)]">
+<div class="flex items-start justify-between">
+<img alt="Candidate Portrait" class="w-20 h-20 rounded-full object-cover border-2 border-surface-container-high" data-alt="professional portrait of a middle-aged man in a navy suit with a confident smile against a neutral grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGduqv1YU5PxLyp7QcVzktua4UIycpsbsRt6GID62fvl0WWopC2klDMAoC2QocIraeHrPoCdVR19wpGzlCY8ldVu7AwJNa3WOvIXp9_PftIk8RNs-VvYexxbfraTu8aCoI90FuV_RubIEp_q1S9LpyeoVKSrHvZJrQ90ufARt4xv1UzNL65nsN3MN_VXFZnBRuogvn9kTLPUjfuM6zHgJQEEph1MkgqSsxbzAQgBHzVPLXbEsqNgTIUnb22kYI6atoe6PHZoDpO7o"/>
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="account_balance">account_balance</span>
+                        Civic Party
+                    </span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-background">Marcus Thorne</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 line-clamp-3">Focusing on urban infrastructure renewal, expanding public transit options, and fostering small business growth in downtown districts.</p>
+</div>
+<button class="mt-auto w-full py-3 rounded-lg bg-surface-container-highest text-on-surface hover:bg-surface-bright transition-colors font-label-sm text-label-sm border border-outline/30 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+                    Select Candidate
+                </button>
+</article>
+<!-- Candidate Card 2 (Selected State) -->
+<article class="bg-surface-variant/50 backdrop-blur-xl border-2 border-primary-container rounded-xl p-lg flex flex-col gap-md transition-all shadow-[0_0_24px_rgba(255,153,51,0.15)] relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 rounded-bl-full -z-10"></div>
+<div class="flex items-start justify-between">
+<img alt="Candidate Portrait" class="w-20 h-20 rounded-full object-cover border-2 border-primary-container" data-alt="professional portrait of a diverse woman in a light grey blazer looking approachable and forward-thinking against an office window backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCainvRHnvJoGwu-i6XW7W4N3xaoJKbukuf2TUQrZyMQRfdWaB3iPQBZGApkL3iok-97SRIjK53vo5AXJnvvyxC9uV9GCyCGujjJEg19rMpRq5zUpntlCMkhsLKcS6WrdyV4VEaPpzr1rP07Ym3bLDsvrs3vmlnTjNGKZwJ7UAXYMMjNSaxRBN55HElm_vIaIK4KEFYliG_GycZUYjv6QFO5t7oAz5bv68a6kiAVe4eMv_t2nxWCSze2vDkqN9rgisyEs6Ek1ojag"/>
+<span class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="eco">eco</span>
+                        Green Future
+                    </span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-h3 text-h3 text-primary-fixed">Elena Rostova</h3>
+<span class="material-symbols-outlined text-primary-container" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 line-clamp-3">Prioritizing sustainable city planning, aggressive renewable energy adoption, and community-led affordable housing initiatives.</p>
+</div>
+<div class="mt-auto bg-primary-container/20 rounded-lg p-1">
+<button class="w-full py-3 rounded-md bg-primary-container text-on-primary-container font-label-sm text-label-sm flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,153,51,0.4)] transition-transform hover:scale-[1.02]">
+<span class="material-symbols-outlined" data-icon="how_to_vote">how_to_vote</span>
+                        Cast Vote for Elena
+                    </button>
+</div>
+</article>
+<!-- Candidate Card 3 (Unselected) -->
+<article class="bg-surface-variant/30 backdrop-blur-xl border border-outline/20 rounded-xl p-lg flex flex-col gap-md transition-all hover:bg-surface-variant/50 group relative overflow-hidden shadow-[8px_8px_16px_rgba(0,0,0,0.4),-4px_-4px_12px_rgba(255,255,255,0.05)]">
+<div class="flex items-start justify-between">
+<img alt="Candidate Portrait" class="w-20 h-20 rounded-full object-cover border-2 border-surface-container-high" data-alt="professional portrait of a young man with a slight beard in a casual collared shirt, looking determined against an outdoor urban background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD7X4ojJhHEmYbYTle1N0kLaEj4nIVOsLHHAqYojwsaOcGHp7JUnSvVLgDF_9mpZ0SJOPpM7O1L3VURU3d_oQbOe4c4DtyoOPBlMSTBSieN8yoCA-NAijJy6YggrPeEuaS0Ba8AfYznknKLx8vO6g_T1fVC3FM7xliz0mjvDGlu8wkqGpFOnyoJCh_Y0yz5w4JATjcE4s7oMrK7p7FJ_fA6aEu6ySlsvVO8qrywvBAUeikxZzZObBnnVykcCe8wihiEXHh-x5Ib5U"/>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-3 py-1 rounded-full flex items-center gap-2 border border-outline/30">
+<span class="material-symbols-outlined text-[16px]" data-icon="group">group</span>
+                        Independent
+                    </span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-background">David Chen</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 line-clamp-3">A data-driven approach to municipal budgets, focusing on tech-enabled government transparency and efficiency in public services.</p>
+</div>
+<button class="mt-auto w-full py-3 rounded-lg bg-surface-container-highest text-on-surface hover:bg-surface-bright transition-colors font-label-sm text-label-sm border border-outline/30 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+                    Select Candidate
+                </button>
+</article>
+</section>
+<div class="w-full h-px bg-gradient-to-r from-transparent via-outline/20 to-transparent my-md"></div>
+<!-- Post-Vote Results Simulation Area -->
+<section class="flex flex-col gap-lg">
+<div class="bg-surface-container/80 backdrop-blur-md border border-primary/20 rounded-xl p-6 flex items-start gap-4 shadow-[inset_0_2px_10px_rgba(255,153,51,0.05)]">
+<div class="bg-primary-container/20 p-3 rounded-full text-primary-container shrink-0">
+<span class="material-symbols-outlined text-3xl" data-icon="verified" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-primary-fixed">Ballot Recorded Successfully</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Your simulated vote has been processed. Below are the current aggregate results from all simulation participants.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline/10 rounded-xl p-lg flex flex-col gap-6 shadow-[8px_8px_16px_rgba(0,0,0,0.5)]">
+<h3 class="font-h3 text-h3 text-on-background flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+                    Current Simulation Standings
+                </h3>
+<div class="flex flex-col gap-4">
+<!-- Result Bar 1 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-label-sm font-label-sm">
+<span class="text-on-background">Elena Rostova (Green Future)</span>
+<span class="text-primary-fixed font-bold">42%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-4 overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]">
+<div class="bg-gradient-to-r from-primary-container to-primary-fixed h-full rounded-full" style="width: 42%;"></div>
+</div>
+</div>
+<!-- Result Bar 2 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-label-sm font-label-sm">
+<span class="text-on-background">Marcus Thorne (Civic Party)</span>
+<span class="text-on-surface-variant">35%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-4 overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]">
+<div class="bg-secondary-container h-full rounded-full" style="width: 35%;"></div>
+</div>
+</div>
+<!-- Result Bar 3 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-label-sm font-label-sm">
+<span class="text-on-background">David Chen (Independent)</span>
+<span class="text-on-surface-variant">23%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-4 overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]">
+<div class="bg-tertiary-container/70 h-full rounded-full" style="width: 23%;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-6 left-0 right-0 flex justify-around items-center px-4 z-50 fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full border border-white/20 bg-white/10 dark:bg-slate-900/60 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] text-[10px] font-semibold uppercase tracking-wider">
+<a class="flex flex-col items-center justify-center text-white/50 p-3 hover:text-[#FF9933] transition-all" href="#">
+<span class="material-symbols-outlined mb-1 text-xl" data-icon="home">home</span>
+            Home
+        </a>
+<a class="flex flex-col items-center justify-center text-white/50 p-3 hover:text-[#FF9933] transition-all" href="#">
+<span class="material-symbols-outlined mb-1 text-xl" data-icon="menu_book">menu_book</span>
+            Learn
+        </a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#FF9933] to-[#FFB366] text-white rounded-full p-3 shadow-[0_0_15px_rgba(255,153,51,0.4)] hover:text-[#FF9933] transition-all" href="#">
+<span class="material-symbols-outlined mb-1 text-xl" data-icon="ads_click">ads_click</span>
+            Simulation
+        </a>
+<a class="flex flex-col items-center justify-center text-white/50 p-3 hover:text-[#FF9933] transition-all" href="#">
+<span class="material-symbols-outlined mb-1 text-xl" data-icon="person">person</span>
+            Profile
+        </a>
+</nav>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-slate-950 border-t border-slate-800 full-width mt-20 text-sm font-light text-slate-400">
+<div class="flex items-center gap-2 text-[#FF9933] font-bold">
+<span>VoteWise</span>
+</div>
+<p>© 2024 VoteWise. Built for the Future of Democracy.</p>
+<div class="flex gap-6">
+<a class="text-slate-500 hover:text-[#FF9933] transition-colors" href="#">Privacy</a>
+<a class="text-slate-500 hover:text-[#FF9933] transition-colors" href="#">Terms</a>
+<a class="text-slate-500 hover:text-[#FF9933] transition-colors" href="#">Ethics</a>
+<a class="text-slate-500 hover:text-[#FF9933] transition-colors" href="#">Contact</a>
+</div>
+</footer>
+</body></html>
