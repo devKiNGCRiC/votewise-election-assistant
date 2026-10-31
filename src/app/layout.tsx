@@ -1,27 +1,41 @@
-/* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Baloo_2, Hind } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const baloo = Baloo_2({
+  subsets: ["latin", "devanagari"],
+  weight: ["600", "700", "800"],
+  variable: "--font-baloo",
+  display: "swap",
+});
+
+const hind = Hind({
+  subsets: ["latin", "devanagari"],
+  weight: ["400", "500", "600"],
+  variable: "--font-hind",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
-  themeColor: "#1a120b",
+  themeColor: "#140c3a",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 };
 
 export const metadata: Metadata = {
-  title: "VoteWise India - Election Awareness Platform",
-  description: "Learn about the Indian democratic process, voting, and civic duties through interactive simulations.",
+  title: {
+    default: "VoteWise India — your first vote, sorted",
+    template: "%s · VoteWise India",
+  },
+  description:
+    "Check if you can vote, learn how India votes, practise on a real-feel EVM and VVPAT, and quiz yourself before election day.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "VoteWise",
   },
 };
@@ -32,18 +46,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-      </head>
-      <body className={`${inter.variable} antialiased min-h-screen flex flex-col`}>
+    <html lang="en-IN" className={`${baloo.variable} ${hind.variable}`}>
+      <body className="antialiased min-h-dvh flex flex-col">
+        <div className="gulaal" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
         <Navbar />
-        <main className="flex-grow pt-20 pb-28 md:pb-0">
-          {children}
-        </main>
+        <main className="grow pt-24 md:pt-28 pb-32 md:pb-12">{children}</main>
         <Footer />
         <Chatbot />
       </body>

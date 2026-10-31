@@ -1,175 +1,223 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
+import { MessageCircle, Send, X } from "lucide-react";
 
-type Message = {
-  id: string;
-  sender: "user" | "bot";
-  text: string;
-};
+type Message = { id: number; from: "user" | "bot"; text: string; link?: { href: string; label: string } };
 
-const QNA_DB: Record<string, string> = {
-  "how to vote?": "To vote, you need to be registered. On election day, go to your designated polling booth, show your Voter ID, sign the register, and press the button next to your chosen candidate.",
-  "what is nota?": "NOTA stands for 'None of the Above'. It allows you to express that you don't support any of the listed candidates.",
-  "who can vote?": "Generally, any citizen who is 18 years of age or older and registered on the electoral roll can vote.",
-  "how to register?": "You can usually register online through your national or local election authority portal. Check our 'Learn' section for more!",
-  "what is evm?": "EVM stands for Electronic Voting Machine. It's a secure device used to record votes electronically."
-};
+// Small offline answer bank. Each entry matches if any keyword appears in the question.
+const ANSWERS: { keys: string[]; text: string; link?: Message["link"] }[] = [
+  {
+    keys: ["register", "enrol", "enroll", "form 6", "sign up", "apply"],
+    text: "Apply online with Form 6 on the Voters' Service Portal (voters.eci.gov.in) or the Voter Helpline app. You'll need a photo, age proof and address proof.",
+    link: { href: "/eligibility", label: "Check if you can enrol" },
+  },
+  {
+    keys: ["age", "18", "17", "old enough", "eligible", "can i vote"],
+    text: "You must be an Indian citizen and 18 on a qualifying date (1 Jan, 1 Apr, 1 Jul or 1 Oct). At 17 you can already apply in advance.",
+    link: { href: "/eligibility", label: "Work out my date" },
+  },
+  {
+    keys: ["nota", "none of the above"],
+    text: "NOTA means None of the Above. It's the last button on the EVM. NOTA votes are counted, but the candidate with the most votes still wins.",
+  },
+  {
+    keys: ["evm", "machine", "button", "how to vote", "how do i vote"],
+    text: "Inside the booth, press the blue button next to your candidate on the ballot unit. A red light glows and you hear a long beep. That's your vote recorded.",
+    link: { href: "/simulation", label: "Practise on the EVM" },
+  },
+  {
+    keys: ["vvpat", "slip", "paper"],
+    text: "The VVPAT is the printer next to the EVM. It shows a slip with your candidate's serial number, name and symbol for 7 seconds, then drops it into a sealed box.",
+  },
+  {
+    keys: ["id", "epic", "voter card", "aadhaar", "document", "proof"],
+    text: "Bring your EPIC (voter ID). If you don't have it, 12 other photo IDs work, like Aadhaar, passport, driving licence or PAN card, as long as your name is on the roll.",
+  },
+  {
+    keys: ["booth", "polling station", "where", "location"],
+    text: "Search your name on electoralsearch.eci.gov.in to see your polling station and serial number, or call the voter helpline on 1950.",
+  },
+  {
+    keys: ["ink", "finger"],
+    text: "The second polling officer marks your left index finger with indelible ink, from the nail to the first joint. It stops anyone voting twice.",
+  },
+  {
+    keys: ["moved", "shift", "correct", "mistake", "form 8", "address change"],
+    text: "Moved house or found a mistake in your entry? Use Form 8 on the Voters' Service Portal to shift or correct it.",
+  },
+  {
+    keys: ["phone", "mobile", "selfie", "photo"],
+    text: "Phones aren't allowed inside the voting compartment, and photographing your vote is not allowed. Many booths have a counter to leave it at.",
+  },
+  {
+    keys: ["helpline", "complain", "complaint", "1950", "cvigil"],
+    text: "Call 1950 for voter help. To report violations like cash or gifts for votes, use ECI's cVIGIL app.",
+  },
+];
 
-const SUGGESTIONS = ["How to vote?", "What is NOTA?", "Who can vote?", "How to register?"];
+const SUGGESTIONS = ["How do I register?", "Can I vote at 17?", "What ID do I need?", "What is NOTA?"];
+const FALLBACK =
+  "Hmm, I don't have that one. Try asking about registering, ID, your booth, the EVM, VVPAT or NOTA. For anything official, call 1950.";
+
+function answer(q: string): Omit<Message, "id" | "from"> {
+  const t = q.toLowerCase();
+  const hit = ANSWERS.find((a) => a.keys.some((k) => t.includes(k)));
+  return hit ? { text: hit.text, link: hit.link } : { text: FALLBACK };
+}
 
 export default function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: "1", sender: "bot", text: "Hi! I'm your VoteWise assistant. How can I help you understand the election process today?" }
+    { id: 0, from: "bot", text: "Namaste! I'm Pucho. Ask me anything about voting in India." },
   ]);
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const idRef = useRef<number>(2);
-
-  const genId = () => (idRef.current++).toString();
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const [typing, setTyping] = useState(false);
+  const endRef = useRef<HTMLDivElement>(null);
+  const nextId = useRef(1);
 
   useEffect(() => {
-    if (isOpen) scrollToBottom();
-  }, [messages, isTyping, isOpen]);
+    if (open) endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, typing, open]);
 
-  const handleSend = (text: string) => {
-    if (!text.trim()) return;
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
-    const userMsg: Message = { id: genId(), sender: "user", text };
-    setMessages((prev) => [...prev, userMsg]);
+  const send = (text: string) => {
+    const q = text.trim();
+    if (!q || typing) return;
+    setMessages((m) => [...m, { id: nextId.current++, from: "user", text: q }]);
     setInput("");
-    setIsTyping(true);
-
-    setTimeout(() => {
-      const lowerText = text.toLowerCase();
-      let botResponse = "I'm not sure about that specific detail. Try asking about voting, NOTA, or registration! You can also check our Learning Guide.";
-      
-      for (const [key, val] of Object.entries(QNA_DB)) {
-        if (lowerText.includes(key.replace("?", ""))) {
-          botResponse = val;
-          break;
-        }
-      }
-
-      setMessages((prev) => [...prev, { id: genId(), sender: "bot", text: botResponse }]);
-      setIsTyping(false);
-    }, 1500);
+    setTyping(true);
+    window.setTimeout(() => {
+      setMessages((m) => [...m, { id: nextId.current++, from: "bot", ...answer(q) }]);
+      setTyping(false);
+    }, 550);
   };
 
   return (
     <>
       <AnimatePresence>
-        {isOpen && (
+        {open && (
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            role="dialog"
+            aria-label="Pucho, the voting help chat"
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.95 }}
-            className="fixed bottom-20 md:bottom-24 right-4 md:right-8 w-[90vw] max-w-[400px] h-[500px] max-h-[65vh] glass-card rounded-[24px] overflow-hidden flex flex-col z-[100] shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-white/10"
+            exit={{ opacity: 0, y: 24, scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+            className="fixed z-100 bottom-40 md:bottom-24 right-3 md:right-6 w-[calc(100vw-1.5rem)] max-w-[400px] h-[min(540px,65dvh)] liquid rounded-[30px] overflow-hidden flex flex-col origin-bottom-right"
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-primary-container to-primary px-6 py-4 flex justify-between items-center shadow-lg">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-white text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
-                </div>
+                <span className="clay clay-rani w-10 h-10 rounded-[14px]! grid place-items-center font-display font-extrabold" lang="hi">
+                  पू
+                </span>
                 <div>
-                  <h3 className="text-white font-bold text-body-md leading-none">VoteWise Assistant</h3>
-                  <span className="text-[10px] text-white/80 uppercase tracking-widest font-bold">Online</span>
+                  <p className="font-display font-bold text-lg leading-none">Pucho</p>
+                  <p className="text-xs text-dhundh mt-1">Quick answers, offline</p>
                 </div>
               </div>
-              <button 
-                onClick={() => setIsOpen(false)} 
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-white transition-colors"
+              <button
+                onClick={() => setOpen(false)}
+                aria-label="Close chat"
+                className="w-9 h-9 grid place-items-center rounded-full hover:bg-white/10"
               >
-                <span className="material-symbols-outlined">close</span>
+                <X className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
 
-            {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-hide bg-surface/20">
-              {messages.map((msg) => (
-                <motion.div 
-                  initial={{ opacity: 0, x: msg.sender === "user" ? 10 : -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  key={msg.id} 
-                  className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-                >
+            <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 flex flex-col gap-3" aria-live="polite">
+              {messages.map((m) => (
+                <div key={m.id} className={`flex ${m.from === "user" ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`max-w-[85%] px-4 py-3 rounded-[18px] text-body-md shadow-sm ${
-                      msg.sender === "user"
-                        ? "bg-primary-container text-on-primary-container rounded-tr-none"
-                        : "bg-surface-container-high text-on-surface border border-outline-variant/30 rounded-tl-none"
+                    className={`max-w-[85%] px-4 py-3 text-[15px] leading-relaxed ${
+                      m.from === "user"
+                        ? "clay clay-genda rounded-[20px]! rounded-br-[6px]!"
+                        : "glass-flat rounded-[20px] rounded-bl-[6px]"
                     }`}
                   >
-                    {msg.text}
-                  </div>
-                </motion.div>
-              ))}
-              {isTyping && (
-                <div className="flex justify-start">
-                  <div className="bg-surface-container-high px-4 py-3 rounded-[18px] rounded-tl-none border border-outline-variant/30 flex gap-1 items-center">
-                    <span className="w-1.5 h-1.5 bg-primary-container rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                    <span className="w-1.5 h-1.5 bg-primary-container rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                    <span className="w-1.5 h-1.5 bg-primary-container rounded-full animate-bounce"></span>
+                    {m.text}
+                    {m.link && (
+                      <Link
+                        href={m.link.href}
+                        onClick={() => setOpen(false)}
+                        className="block mt-2 font-semibold text-genda underline underline-offset-4"
+                      >
+                        {m.link.label}
+                      </Link>
+                    )}
                   </div>
                 </div>
+              ))}
+              {typing && (
+                <div className="glass-flat rounded-[20px] rounded-bl-[6px] px-4 py-3.5 self-start flex gap-1" aria-label="Pucho is typing">
+                  {[0, 1, 2].map((i) => (
+                    <span
+                      key={i}
+                      className="w-2 h-2 rounded-full bg-genda animate-bounce"
+                      style={{ animationDelay: `${i * 0.12}s` }}
+                    />
+                  ))}
+                </div>
               )}
-              <div ref={messagesEndRef} />
+              <div ref={endRef} />
             </div>
 
-            {/* Suggestions & Input */}
-            <div className="p-4 bg-surface-container-low/40 backdrop-blur-md border-t border-white/5">
-              <div className="flex gap-2 overflow-x-auto pb-3 no-scrollbar snap-x">
-                {SUGGESTIONS.map((sug) => (
+            <div className="px-4 pb-4 pt-2">
+              <div className="flex gap-2 overflow-x-auto no-scrollbar pb-3 -mx-4 px-4">
+                {SUGGESTIONS.map((s) => (
                   <button
-                    key={sug}
-                    onClick={() => handleSend(sug)}
-                    className="shrink-0 text-label-sm px-4 py-2 rounded-full border border-primary-container/30 bg-primary-container/5 text-primary-container hover:bg-primary-container/20 transition-all snap-start whitespace-nowrap"
+                    key={s}
+                    onClick={() => send(s)}
+                    className="shrink-0 glass-flat rounded-full px-3.5 py-1.5 text-sm text-dhundh hover:text-doodh hover:bg-white/10"
                   >
-                    {sug}
+                    {s}
                   </button>
                 ))}
               </div>
-              <div className="flex gap-2">
+              <form
+                className="flex gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  send(input);
+                }}
+              >
                 <input
-                  type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSend(input)}
-                  placeholder="Ask me anything..."
-                  className="flex-1 bg-surface-container-highest/50 border border-outline-variant/30 rounded-full px-5 py-3 text-body-md text-on-surface focus:outline-none focus:border-primary-container transition-colors"
+                  placeholder="Ask about voting…"
+                  aria-label="Your question"
+                  className="flex-1 min-w-0 rounded-full bg-neel/70 border border-white/15 px-5 py-3 text-[15px] shadow-[inset_0_3px_8px_rgba(0,0,0,0.35)] focus:outline-none focus:border-genda"
                 />
                 <button
-                  onClick={() => handleSend(input)}
+                  type="submit"
                   disabled={!input.trim()}
-                  className="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:grayscale"
+                  aria-label="Send"
+                  className="clay clay-genda clay-press w-12 h-12 rounded-full! grid place-items-center shrink-0 disabled:opacity-50"
                 >
-                  <span className="material-symbols-outlined">send</span>
+                  <Send className="w-5 h-5" aria-hidden="true" />
                 </button>
-              </div>
+              </form>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Toggle Button */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 md:bottom-8 right-4 md:right-8 z-[110] w-14 h-14 rounded-full bg-gradient-to-br from-primary-container to-primary flex items-center justify-center text-white shadow-[0_8px_32px_rgba(255,153,51,0.5)] border border-white/20 transition-all ${isOpen ? 'translate-y-[-4px]' : ''}`}
+      <button
+        onClick={() => setOpen((o) => !o)}
+        aria-label={open ? "Close chat" : "Ask Pucho a question"}
+        aria-expanded={open}
+        className="fixed z-110 bottom-24 md:bottom-6 right-4 md:right-6 clay clay-rani clay-press w-14 h-14 rounded-full! grid place-items-center"
       >
-        <span className="material-symbols-outlined text-[30px]" style={{ fontVariationSettings: `'FILL' ${isOpen ? 0 : 1}` }}>
-          {isOpen ? "close" : "forum"}
-        </span>
-      </motion.button>
+        {open ? <X className="w-6 h-6" aria-hidden="true" /> : <MessageCircle className="w-6 h-6" aria-hidden="true" />}
+      </button>
     </>
   );
 }
