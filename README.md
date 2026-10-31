@@ -1,13 +1,18 @@
-# VoteWise India
+# 🗳️ VoteWise India – Election Learning Assistant
 
 A free, non-partisan practice space for India's first-time voters. Check if you can vote, learn how
 elections work, practise on a real-feel EVM and VVPAT, and test yourself before polling day.
+
+Built as part of the **PromptWars Virtual Challenge**, this project focuses on civic awareness using
+modern web technologies.
 
 > VoteWise is an independent learning project and is **not affiliated with the Election Commission of
 > India**. For registration and official information, use [voters.eci.gov.in](https://voters.eci.gov.in/)
 > or call the voter helpline **1950**.
 
-## What's inside
+---
+
+## 🚀 Features
 
 | Page | What it does |
 | --- | --- |
@@ -18,12 +23,22 @@ elections work, practise on a real-feel EVM and VVPAT, and test yourself before 
 | `/quiz` | Ten questions with keyboard answers (1–4), streaks and a saved best score |
 | `/about` | What the project is, and what it doesn't do |
 
-There's also **Pucho**, a small offline help chat, on every page.
+- 🤖 **Pucho**, a small offline help chat, is on every page.
+- 📱 **Installable PWA** that keeps visited pages working offline.
 
 Candidates and parties in the simulator are fictional. Nothing is tracked or sent anywhere: the
 checklist and quiz score live in the browser's `localStorage`.
 
-## Design
+---
+
+## 🎯 Purpose
+
+Many people find the election process confusing, especially when voting for the first time.
+VoteWise simplifies it through interactive design and plain explanations.
+
+---
+
+## 🎨 Design
 
 - **Palette:** neel (indigo night) `#140c3a`, genda (marigold) `#ffb627`, rani pink `#f2258c`,
   mor (peacock) `#10b5a6`, syahi (ink) `#8b6cff`, EVM blue `#2d6bff`. Tokens live in
@@ -34,13 +49,19 @@ checklist and quiz score live in the browser's `localStorage`.
   Glass with backdrop blur is used sparingly because it's expensive to render.
 - Motion respects `prefers-reduced-motion`.
 
-## Tech
+---
 
-Next.js 16 (App Router, all routes prerendered as static pages), React 19, Tailwind CSS 4,
-lucide-react icons and framer-motion (chat panel only). A service worker (`public/sw.js`) keeps
-visited pages working offline, and the site installs as a PWA.
+## 🛠️ Tech Stack
 
-## Getting started
+- **Framework:** Next.js 16 (App Router, all routes prerendered as static pages), React 19
+- **Styling:** Tailwind CSS 4
+- **Icons and motion:** lucide-react, framer-motion (chat panel only)
+- **PWA:** service worker (`public/sw.js`) + web manifest
+- **Testing:** Playwright end-to-end tests, run in CI
+
+---
+
+## 🏁 Getting Started
 
 ```bash
 npm install
@@ -57,7 +78,24 @@ npm run test:e2e   # Playwright end-to-end tests (builds and starts the app on p
 
 The first time you run the end-to-end tests, install the browser with `npx playwright install chromium`.
 
-## Project layout
+When deploying anywhere other than Vercel, set `NEXT_PUBLIC_SITE_URL` (for example
+`https://votewise.example`) so share previews link to the right domain.
+
+---
+
+## 🌐 Live Demo
+
+(Will be added after deployment)
+
+---
+
+## 📸 Screenshots
+
+(Add screenshots here)
+
+---
+
+## 🧩 Project Structure
 
 ```
 src/
@@ -73,3 +111,23 @@ src/
   lib/useStoredState.ts      localStorage-backed state hook
 e2e/                         Playwright tests
 ```
+
+---
+
+## 📌 Future Improvements
+
+- Hindi / English language toggle
+- Countdown to upcoming elections by state
+- Smarter AI assistant
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork and improve the project.
+
+---
+
+## 📜 License
+
+This project is open-source and available under the MIT License.
