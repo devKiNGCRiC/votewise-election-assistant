@@ -65,11 +65,19 @@ export default function Quiz() {
     setFinished(false);
   };
 
-  // 1–4 to answer
+  // 1–4 to answer, Enter for the next question
   const onAnswerKey = useEffectEvent((n: number) => choose(n));
+  const onEnter = useEffectEvent(() => {
+    if (answered && !finished) next();
+  });
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key === "Enter") {
+        // Buttons and links already act on Enter themselves.
+        if (!(e.target instanceof HTMLButtonElement || e.target instanceof HTMLAnchorElement)) onEnter();
+        return;
+      }
       const n = KEYS.indexOf(e.key);
       if (n !== -1) onAnswerKey(n);
     };
@@ -204,7 +212,7 @@ export default function Quiz() {
           </div>
         )}
       </div>
-      {!answered && <p className="hidden md:block text-sm text-dhundh-2 mt-6">Tip: press 1–4 on your keyboard to answer.</p>}
+      {!answered && <p className="hidden md:block text-sm text-dhundh-2 mt-6">Tip: press 1–4 to answer and Enter for the next question.</p>}
     </div>
   );
 }

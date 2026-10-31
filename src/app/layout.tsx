@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
+import ServiceWorker from "@/components/ServiceWorker";
 
 const baloo = Baloo_2({
   subsets: ["latin", "devanagari"],
@@ -26,6 +27,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  // Absolute base for share-image URLs. Vercel fills this in automatically; set it elsewhere.
+  metadataBase: process.env.NEXT_PUBLIC_SITE_URL ? new URL(process.env.NEXT_PUBLIC_SITE_URL) : undefined,
   title: {
     default: "VoteWise India — your first vote, sorted",
     template: "%s · VoteWise India",
@@ -57,6 +60,7 @@ export default function RootLayout({
         <main className="grow pt-24 md:pt-28 pb-32 md:pb-12">{children}</main>
         <Footer />
         <Chatbot />
+        <ServiceWorker />
       </body>
     </html>
   );

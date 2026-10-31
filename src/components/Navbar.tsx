@@ -15,11 +15,12 @@ const links = [
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <Link href="/" className={`flex items-center gap-2.5 group ${className}`} aria-label="VoteWise home">
-      <span className="clay clay-genda w-9 h-9 rounded-[12px]! grid place-items-center">
-        {/* Inked fingertip mark */}
-        <svg viewBox="0 0 24 24" className="w-5 h-5" aria-hidden="true">
-          <rect x="7" y="2" width="10" height="20" rx="5" fill="#2b1500" opacity=".2" />
-          <path d="M8 9.5h8" stroke="#6b3fd6" strokeWidth="3" strokeLinecap="round" />
+      <span className="clay clay-genda w-9 h-9 rounded-[12px]! overflow-hidden">
+        {/* Inked fingertip mark, same as the app icon */}
+        <svg viewBox="0 0 64 64" className="w-full h-full" aria-hidden="true">
+          <rect x="21" y="10" width="22" height="64" rx="11" fill="#b8784c" />
+          <rect x="25" y="14" width="14" height="17" rx="7" fill="#f3d2bd" />
+          <path d="M32 15v21" stroke="#5a2fd0" strokeWidth="4" strokeLinecap="round" />
         </svg>
       </span>
       <span className="font-display font-extrabold text-xl leading-none tracking-tight">
